@@ -4,8 +4,8 @@
 # Se o trabalho for feito em grupo, coloque os nomes de 
 # todos os integrantes (copie e cole as linhas abaixo)
 #
-# Nome:
-# NUSP:
+# Nome: Micael Vinicius Lira Prado
+# NUSP: 11857991
 #
 # ---
 #
@@ -54,15 +54,19 @@ class Agent:
         if self.key_handler[key.W]:
             # Set the values of pwm_left and pwm_right to make your robot move forward
             # at a reasonable speed (perhaps add acceleration/deacceleration)
+            pwm_left, pwm_right = 0.7, 0.7
             print('Move Forward!')
         if self.key_handler[key.A]:
             # Set the values of pwm_left and pwm_right to make your robot turn left
+            pwm_right = 0.7
             print('Turn Left!')
         if self.key_handler[key.S]:
             # Set the values of pwm_left and pwm_right to make your robot move backward
+            pwm_left, pwm_right = -0.7, -0.7
             print('Move sBackward!')
         if self.key_handler[key.D]:
             # Set the values of pwm_left and pwm_right to make your robot turn right
+            pwm_left = 0.7
             print('Turn Right!')
 
         # At each step, the environment may (or may not) change given your actions. Function step takes
