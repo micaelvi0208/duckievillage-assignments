@@ -1,8 +1,8 @@
 # MAC0318 Intro to Robotics
 # Please fill-in the fields below with your info
 #
-# Name:
-# NUSP:
+# Name: Micael Vinicius Lira Prado
+# NUSP: 11857991
 #
 # ---
 #

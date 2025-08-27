@@ -15,15 +15,14 @@
 #  - Usar a arquitetura de um veículo de Braitenberg para implementar um veículo seguidor de faixa.
 #
 # Não se esqueça de executar este arquivo do diretório raiz do Duckievillage (p.ex.):
-#   cd ~/MAC0318/duckievillage
-#   conda activate duckietown
-#   python3 assignments/braitenberg/lane_following.py
+#   cd ~/duckievillage
+#   source bin/activate
+#   python3 assignments/braitenberg_lf/lane_following.py
 #
 # Instruções:
 #  0. Preencha o cabeçalho acima
 #  1. Assegure-se que o código submetido é o correto e funcionando. Se seu código não roda, você receberá nota 0 na atividade.
 #  2. Submeta este arquivo no e-disciplinas.
-#  3. Coloque esse arquivo no seu repositório pessoal (sugestão: fazendo um `fork` do repositório no gitlab). Você usará sua solução como base em outras atividades futuras.
 
 import sys
 import pyglet
@@ -38,10 +37,10 @@ class Agent:
         """ Initializes agent """
         self.env = environment
         # Color segmentation hyperspace - TODO: MODIFY THE VALUES BELOW
-        self.inner_lower = np.array([0, 0, 0])
-        self.inner_upper = np.array([179, 255, 255])
-        self.outer_lower = np.array([0, 0, 0])
-        self.outer_upper = np.array([179, 255, 255])
+        self.inner_lower = np.array([15, 70, 70])
+        self.inner_upper = np.array([35, 255, 255])
+        self.outer_lower = np.array([0, 0, 200])
+        self.outer_upper = np.array([180, 50, 255])
         # Acquire image for initializing activation matrices
         img = self.env.front()
         img_shape = img.shape[0], img.shape[1]
@@ -50,8 +49,8 @@ class Agent:
         self.outer_left_motor_matrix = np.zeros(shape=img_shape, dtype="float32")
         self.outer_right_motor_matrix = np.zeros(shape=img_shape, dtype="float32")
         # Connecition matrices - TODO: Replace with your code
-        self.inner_left_motor_matrix[:, :img_shape[1]//2] = 1
-        self.inner_right_motor_matrix[:, img_shape[1]//2:] = 1
+        self.inner_left_motor_matrix[:, :img_shape[1]//2] = -1
+        self.inner_right_motor_matrix[:, img_shape[1]//2:] = -1
 
     # Image processing routine - Color segmentation
     def preprocess(self, image: np.ndarray) -> np.ndarray:
@@ -84,10 +83,10 @@ class Agent:
         R = rescale(R, 0, limit)
         # Tweak with the constants below to get to change velocity or to stabilize the behavior
         # Recall that the pwm signal sets the wheel torque, and is capped to be in [-1,1]
-        gain = 3.0   # increasing this will increasing responsitivity and reduce stability
-        const = 0.15 # power under null activation - this affects the base velocity
-        pwm_left = const + R * gain
-        pwm_right = const + L * gain
+        gain = 6.0   # increasing this will increasing responsitivity and reduce stability
+        const = 0.2 # power under null activation - this affects the base velocity
+        pwm_left = const + L * gain
+        pwm_right = const + R * gain
         # print('>', L, R, pwm_left, pwm_right) # uncomment for debugging
         # Now send command to motors
         self.env.step(pwm_left, pwm_right)
@@ -105,7 +104,7 @@ def main():
     env = create_env(
       raw_motor_input = True,
       seed = 101,
-      map_name = './maps/loop_empty.yaml',
+      map_name = './maps/loop_empty',
       draw_curve = False,
       draw_bbox = False,
       domain_rand = False,
@@ -114,7 +113,7 @@ def main():
       distortion = False,
       top_down = False,
       cam_height = 10,
-      is_external_map = True,
+      #is_external_map = True,
     )
 
     angle = env.unwrapped.cam_angle[0]
