@@ -1,8 +1,8 @@
 # MAC0318 Intro to Robotics
 # Please fill-in the fields below with your info
 #
-# Name:
-# NUSP:
+# Name: Micael Vinicius Lira Prado
+# NUSP: 11857991
 #
 # ---
 #
@@ -52,8 +52,8 @@ class Agent:
         self.baseline = 0.102 # [m]
 
         # Motor constants
-        self.motor_gain = 0.01 # K_m -- you should modify this value
-        self.motor_trim = 0.0  # K_t -- you should modify this value
+        self.motor_gain = 0.05 # K_m -- you should modify this value
+        self.motor_trim = 0.0006  # K_t -- you should modify this value
 
         key_handler = key.KeyStateHandler()
         environment.unwrapped.window.push_handlers(key_handler)
